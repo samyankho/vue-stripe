@@ -4,17 +4,19 @@ import { STRIPE_PARTNER_DETAILS } from '../constants';
  */
 export default {
   async install (Vue, options) {
-    const {
-      pk,
-      stripeAccount,
-      apiVersion,
-      locale,
-      elementsOptions,
-    } = options;
-    const stripe = window.Stripe(pk, { stripeAccount, apiVersion, locale });
-    stripe.registerAppInfo(STRIPE_PARTNER_DETAILS);
-    const elements = stripe.elements(elementsOptions);
-    Vue.prototype.$stripe = stripe;
-    Vue.prototype.$stripeElements = elements;
+    if(typeof window != 'undefined') {
+      const {
+        pk,
+        stripeAccount,
+        apiVersion,
+        locale,
+        elementsOptions,
+      } = options;
+      const stripe = window.Stripe(pk, { stripeAccount, apiVersion, locale });
+      stripe.registerAppInfo(STRIPE_PARTNER_DETAILS);
+      const elements = stripe.elements(elementsOptions);
+      Vue.prototype.$stripe = stripe;
+      Vue.prototype.$stripeElements = elements;
+    }
   },
 };
